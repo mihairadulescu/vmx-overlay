@@ -9,14 +9,14 @@ export const Person = ({ person, isVisible }) => {
     if (isVisible) {
       setVisible(true);
     } else {
-      const timer = setTimeout(() => setVisible(false), 1000); // Duration should match the fade-out animation duration
+      const timer = setTimeout(() => setVisible(false), 1000); // Duration should match the slide-out animation duration
       return () => clearTimeout(timer);
     }
   }, [isVisible]);
 
   return (
     visible && (
-      <div style={{ ...personStyle, animation: `${isVisible ? 'fadeIn' : 'fadeOut'} 1s` }}>
+      <div className={`person-container ${isVisible ? 'slideIn' : 'slideOut'}`}>
         <p style={nameStyle}>{`${person.title} ${person.name}`}</p>
         <p style={locationStyle}>{`${person.city}, ${person.country}`}</p>
       </div>
@@ -24,26 +24,10 @@ export const Person = ({ person, isVisible }) => {
   );
 };
 
-const personStyle = {
-  position: 'fixed',
-  bottom: 0,
-  width: '100%',
-  height: '10%',
-  backgroundColor: 'rgb(64, 92, 121)',
-  color: 'white',
-  padding: '10px',
-  fontSize: '18px',
-  zIndex: 1000,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'flex-start', // Align items to the left
-  justifyContent: 'center',
-};
-
 const nameStyle = {
   margin: 0,
   padding: 0,
-  fontSize: '20px',
+  fontSize: '26px',  // Increased font size for readability
   fontWeight: 'bold',
   textAlign: 'left',
   width: '100%'
@@ -52,7 +36,7 @@ const nameStyle = {
 const locationStyle = {
   margin: 0,
   padding: 0,
-  fontSize: '18px',
+  fontSize: '24px',  // Increased font size for readability
   textAlign: 'left',
   width: '100%'
 };

@@ -6,7 +6,8 @@ import './Person.css';  // Import the CSS file for animations
 const WebSocketComponent = ({ wsUrl }) => {
   const [messages, setMessages] = useState([]);
   const [ws, setWs] = useState(null);
-  const [showPerson, setShowPerson] = useState(true);
+  const [showPerson, setShowPerson] = useState(false);
+  const [person, setPerson] = useState(null);
 
   useEffect(() => {
     const websocket = new WebSocket(wsUrl);
@@ -17,15 +18,33 @@ const WebSocketComponent = ({ wsUrl }) => {
     };
 
     websocket.onmessage = (e) => {
-      const message = e.data;
       console.log('onMessage', e);
-      setMessages((prevMessages) => [...prevMessages, message]);
-      setShowPerson(true); // Show Person component when a message is received
-      setTimeout(() => setShowPerson(false), 5000); // Hide after 5 seconds
+
+      // Read the Blob and convert it to a string
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const message = JSON.parse(reader.result);
+
+          // Trigger fade-out before updating the person data
+          setShowPerson(false);
+
+          // Wait for the fade-out animation to complete
+          setTimeout(() => {
+            setPerson(message); // Update the person data with the received message
+            setShowPerson(true); // Show Person component with the new data
+          }, 1000); // Match this duration with the fade-out duration
+          
+          setMessages((prevMessages) => [...prevMessages, message]);
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+        }
+      };
+      reader.readAsText(e.data);
     };
 
     websocket.onerror = (error) => {
-      console.error('WebSocket Error: ', error);
+      console.error('WebSocket Error:', error);
     };
 
     return () => {
@@ -35,16 +54,9 @@ const WebSocketComponent = ({ wsUrl }) => {
 
   console.log('messages', messages);
 
-  const person = {
-    title: "Mr",
-    name: "Mihai Radulescu",
-    city: "Sibiu",
-    country: "Romania"
-  }
-
   return (
     <div className='bg-transparent'>
-      <Person person={person} isVisible={showPerson} />
+      {person && <Person person={person} isVisible={showPerson} />}
     </div>
   );
 };
