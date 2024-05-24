@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import handleSubmit from './handleSubmit';
 import ReactToPrint from 'react-to-print';
-import Presenter from './Presenter';
+import Presenter from './presenter';
 
 const RegistrationSchema = Yup.object().shape({
   title: Yup.string().required('Required'),
