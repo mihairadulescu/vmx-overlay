@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import { Person } from './person';  // Adjust the import path as needed
-import './Person.css';  // Import the CSS file for animations
+import './person.css';  // Import the CSS file for animations
 
 const WebSocketComponent = ({ wsUrl }) => {
   const [messages, setMessages] = useState([]);

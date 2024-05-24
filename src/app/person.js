@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react';
-import './Person.css';  // Import the CSS file for animations
+import './person.css';  // Import the CSS file for animations
 
 export const Person = ({ person, isVisible }) => {
   const [visible, setVisible] = useState(isVisible);
