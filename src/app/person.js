@@ -17,7 +17,7 @@ export const Person = ({ person, isVisible }) => {
   return (
     visible && (
       <div className={`person-container ${isVisible ? 'slideIn' : 'slideOut'}`}>
-        <p style={nameStyle}>{`${person.title} ${person.name}`}</p>
+        <p style={nameStyle}>{`${person.title} ${person.firstName} ${person.lastName}`}</p>
         <p style={locationStyle}>{`${person.city}, ${person.country}`}</p>
       </div>
     )
