@@ -19,6 +19,10 @@ const Registration = () => {
   const [status, setStatus] = useState({ success: false, data: null });
   const componentRef = useRef();
 
+  const handleBack = () => {
+    setStatus({ success: false, data: null });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {!status.success ? (
@@ -97,7 +101,13 @@ const Registration = () => {
       ) : (
         <div className="flex flex-col items-center">
           <Presenter ref={componentRef} data={status.data} />
-          <div className="mt-4">
+          <div className="mt-4 flex w-full justify-between px-4">
+            <button
+              onClick={handleBack}
+              className="px-4 py-2 font-medium text-white bg-gray-600 border border-transparent rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 sm:text-sm"
+            >
+              Back
+            </button>
             <ReactToPrint
               trigger={() => (
                 <button className="px-4 py-2 font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:text-sm">
