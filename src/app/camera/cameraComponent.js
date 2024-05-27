@@ -52,6 +52,7 @@ const CameraComponent = () => {
     <div>
       <h1>Scan QR Code</h1>
       <QrReader
+        constraints={{ facingMode: 'environment' }}
         delay={300}
         onResult={(result) => {
           if (result) {
