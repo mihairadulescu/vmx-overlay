@@ -7,7 +7,7 @@ const CameraComponent = () => {
   const ws = useRef(null); // Use useRef to keep the WebSocket reference
 
   useEffect(() => {
-    ws.current = new WebSocket('ws://http://geke.hermannstadtpfarrkirche.online/ws');
+    ws.current = new WebSocket('wss://http://geke.hermannstadtpfarrkirche.online/ws');
 
     ws.current.onopen = () => {
       console.log('WebSocket Connected');
