@@ -12,11 +12,11 @@ const Presenter = React.forwardRef(({ data }, ref) => (
     </div>
 
     {/* QR Code and Details */}
-    <div className="flex flex-row items-center w-full h-full">
+    <div className="flex flex-row items-center w-full">
       {/* Name, Title, City, Country */}
-      <div className="flex flex-col items-start text-left px-4 justify-center w-1/2">
+      <div className="flex flex-col items-start text-left px-4 w-1/2">
         <div className="text-lg font-bold">
-          <span>{data.title} {data.firstName} {data.lastName}</span>
+          <span>{data.title} {data.name}</span>
         </div>
         <div className="text-md mt-1">
           <span>{data.city}, {data.country}</span>
