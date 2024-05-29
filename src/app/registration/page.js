@@ -26,7 +26,7 @@ const Registration = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {!status.success ? (
-        <div className="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-md">
+        <div className="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-md" style={{color:"black"}}>
           <h1 className="text-2xl font-bold text-center">Registration Page</h1>
           <Formik
             initialValues={{ title: '', firstName: '', lastName: '', city: '', country: '', qrCode: '' }}

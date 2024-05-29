@@ -4,7 +4,7 @@ const Presenter = React.forwardRef(({ data }, ref) => (
   <div
     ref={ref}
     className="border border-gray-300 rounded-lg p-4 flex flex-col items-center overflow-hidden bg-white"
-    style={{ width: '4in', height: '3in' }}
+    style={{ width: '4in', height: '3in', color: "black" }}
   >
     {/* Event Logo */}
     <div className="flex items-center justify-center mb-4">
