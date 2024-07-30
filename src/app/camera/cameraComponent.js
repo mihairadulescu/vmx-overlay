@@ -38,12 +38,25 @@ const CameraComponent = () => {
 
     connectWebSocket();
 
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        console.log('Page is visible');
+        if (!isConnected) {
+          console.log('Attempting to reconnect WebSocket');
+          connectWebSocket();
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
       if (ws.current) {
         ws.current.close();
       }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, []);
+  }, [isConnected]);
 
   const handleScan = useCallback((scannedData) => {
     if (scannedData) {
