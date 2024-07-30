@@ -1,39 +1,32 @@
-"use client"
-import React, { useState, useEffect } from 'react';
+"use client";
+import React, { useState, useEffect, useRef } from 'react';
 import { Person } from './person';  // Adjust the import path as needed
 import './person.css';  // Import the CSS file for animations
 
 const WebSocketComponent = ({ wsUrl }) => {
   const [messages, setMessages] = useState([]);
-  const [ws, setWs] = useState(null);
   const [showPerson, setShowPerson] = useState(false);
   const [person, setPerson] = useState(null);
+  const ws = useRef(null); // Start with a null value
 
-  useEffect(() => {
-    const websocket = new WebSocket(wsUrl);
-    setWs(websocket);
-
+  const setupWebSocketHandlers = (websocket) => {
     websocket.onopen = () => {
       console.log('WebSocket Connected');
     };
 
     websocket.onmessage = (e) => {
       console.log('onMessage', e);
-
-      // Read the Blob and convert it to a string
       const reader = new FileReader();
       reader.onload = () => {
         try {
           const message = JSON.parse(reader.result);
 
-          // Trigger fade-out before updating the person data
           setShowPerson(false);
 
-          // Wait for the fade-out animation to complete
           setTimeout(() => {
-            setPerson(message); // Update the person data with the received message
-            setShowPerson(true); // Show Person component with the new data
-          }, 1000); // Match this duration with the fade-out duration
+            setPerson(message);
+            setShowPerson(true);
+          }, 1000);
           
           setMessages((prevMessages) => [...prevMessages, message]);
         } catch (error) {
@@ -47,12 +40,45 @@ const WebSocketComponent = ({ wsUrl }) => {
       console.error('WebSocket Error:', error);
     };
 
+    websocket.onclose = () => {
+      console.log('WebSocket Disconnected');
+      setTimeout(() => {
+        if (websocket.readyState !== WebSocket.OPEN && websocket.readyState !== WebSocket.CONNECTING) {
+          ws.current = new WebSocket(wsUrl);
+          setupWebSocketHandlers(ws.current);
+        }
+      }, 300); // Reconnect after 300ms
+    };
+  };
+
+  useEffect(() => {
+    if (!ws.current) {
+      ws.current = new WebSocket(wsUrl);
+      setupWebSocketHandlers(ws.current);
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        console.log('Page is visible');
+        if (ws.current.readyState !== WebSocket.OPEN) {
+          console.log('Reconnecting WebSocket due to visibility change');
+          ws.current = new WebSocket(wsUrl);
+          setupWebSocketHandlers(ws.current);
+        }
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
     return () => {
-      websocket.close();
+      if (ws.current) {
+        ws.current.close();
+      }
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [wsUrl]);
 
-  console.log('messages', messages);
+
 
   return (
     <div className='bg-transparent'>
