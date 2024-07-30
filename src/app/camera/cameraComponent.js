@@ -4,25 +4,39 @@ import { QrReader } from 'react-qr-reader';
 
 const CameraComponent = () => {
   const [data, setData] = useState('No result');
-  const ws = useRef(null); // Use useRef to keep the WebSocket reference
+  const [isConnected, setIsConnected] = useState(false);
+  const ws = useRef(null);
 
   useEffect(() => {
-    ws.current = new WebSocket('wss://geke.hermannstadtpfarrkirche.online/ws');
+    const connectWebSocket = () => {
+      ws.current = new WebSocket('wss://geke.hermannstadtpfarrkirche.online/ws');
 
-    ws.current.onopen = () => {
-      console.log('WebSocket Connected');
+      ws.current.onopen = () => {
+        console.log('WebSocket Connected');
+        setIsConnected(true);
+      };
+
+      ws.current.onmessage = (e) => {
+        const message = e.data;
+        console.log('onMessage', e);
+        // Handle incoming messages if needed
+      };
+
+      ws.current.onerror = (error) => {
+        console.error('WebSocket Error: ', error);
+      };
+
+      ws.current.onclose = () => {
+        console.log('WebSocket Disconnected');
+        setIsConnected(false);
+        // Try to reconnect after a delay
+        setTimeout(() => {
+          connectWebSocket();
+        }, 3000); // Reconnect after 3 seconds
+      };
     };
 
-    ws.current.onmessage = (e) => {
-      const message = e.data;
-      console.log('onMessage', e);
-      // Assuming you have a setMessages function to update messages
-      // setMessages((prevMessages) => [...prevMessages, message]);
-    };
-
-    ws.current.onerror = (error) => {
-      console.error('WebSocket Error: ', error);
-    };
+    connectWebSocket();
 
     return () => {
       if (ws.current) {
@@ -34,11 +48,11 @@ const CameraComponent = () => {
   const handleScan = useCallback((scannedData) => {
     if (scannedData) {
       try {
-        const jsonData = JSON.parse(scannedData.text); // Access the `text` property of the scanned data
+        const jsonData = JSON.parse(scannedData.text);
         if (ws.current && ws.current.readyState === WebSocket.OPEN) {
           ws.current.send(JSON.stringify(jsonData));
-          setData(JSON.stringify(jsonData, null, 2)); // Convert JSON object to string for display
-          console.log('DATA RECEIVED data', jsonData);
+          setData(JSON.stringify(jsonData, null, 2));
+          console.log('Data sent:', jsonData);
         } else {
           console.log('WebSocket is not open');
         }
@@ -61,7 +75,8 @@ const CameraComponent = () => {
         }}
         style={{ width: '100%' }}
       />
-      <pre>Scanned Data: {data}</pre> {/* Use <pre> to display JSON nicely */}
+      <pre>Scanned Data: {data}</pre>
+      <p>Status: {isConnected ? 'Connected' : 'Disconnected'}</p>
     </div>
   );
 };
