@@ -32,7 +32,7 @@ const CameraComponent = () => {
         // Try to reconnect after a delay
         setTimeout(() => {
           connectWebSocket();
-        }, 400); // Reconnect after 3 seconds
+        }, 5000); // Reconnect after 3 seconds
       };
     };
 
