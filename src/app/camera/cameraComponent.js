@@ -2,61 +2,48 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { QrReader } from 'react-qr-reader';
 
+// Function to establish and handle the WebSocket connection
+const connectWebSocket = (ws, setIsConnected) => {
+  ws.current = new WebSocket('wss://geke.hermannstadtpfarrkirche.online/ws');
+
+  ws.current.onopen = () => {
+    console.log('WebSocket Connected');
+    setIsConnected(true);
+  };
+
+  ws.current.onmessage = (e) => {
+    console.log('onMessage', e);
+    // Handle incoming messages if needed
+  };
+
+  ws.current.onerror = (error) => {
+    console.error('WebSocket Error: ', error);
+  };
+
+  ws.current.onclose = () => {
+    console.log('WebSocket Disconnected');
+    setIsConnected(false);
+    // Try to reconnect after a delay
+    setTimeout(() => {
+      connectWebSocket(ws, setIsConnected);
+    }, 3000); // Reconnect after 3 seconds
+  };
+};
+
 const CameraComponent = () => {
   const [data, setData] = useState('No result');
   const [isConnected, setIsConnected] = useState(false);
   const ws = useRef(null);
 
   useEffect(() => {
-    const connectWebSocket = () => {
-      ws.current = new WebSocket('wss://geke.hermannstadtpfarrkirche.online/ws');
-
-      ws.current.onopen = () => {
-        console.log('WebSocket Connected');
-        setIsConnected(true);
-      };
-
-      ws.current.onmessage = (e) => {
-        const message = e.data;
-        console.log('onMessage', e);
-        // Handle incoming messages if needed
-      };
-
-      ws.current.onerror = (error) => {
-        console.error('WebSocket Error: ', error);
-      };
-
-      ws.current.onclose = () => {
-        console.log('WebSocket Disconnected');
-        setIsConnected(false);
-        // Try to reconnect after a delay
-        setTimeout(() => {
-          connectWebSocket();
-        }, 5000); // Reconnect after 3 seconds
-      };
-    };
-
-    connectWebSocket();
-
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        console.log('Page is visible');
-        if (!isConnected) {
-          console.log('Attempting to reconnect WebSocket');
-          connectWebSocket();
-        }
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    connectWebSocket(ws, setIsConnected);
 
     return () => {
       if (ws.current) {
         ws.current.close();
       }
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [isConnected]);
+  }, []);
 
   const handleScan = useCallback((scannedData) => {
     if (scannedData) {
