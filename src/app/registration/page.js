@@ -8,11 +8,10 @@ import ReactToPrint from 'react-to-print';
 import Presenter from './presenter';
 
 const RegistrationSchema = Yup.object().shape({
-  title: Yup.string().required('Required'),
+  id: Yup.string().required('Required'),
   firstName: Yup.string().required('Required'),
-  lastName: Yup.string().required('Required'),
-  city: Yup.string().required('Required'),
-  country: Yup.string().required('Required'),
+  secondName: Yup.string().required('Required'),
+  organisation: Yup.string().required('Required'),
 });
 
 const Registration = () => {
@@ -36,31 +35,31 @@ const Registration = () => {
             {({ isSubmitting, values }) => (
               <Form className="space-y-4">
                 <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+                  <label htmlFor="id" className="block text-sm font-medium text-gray-700">Id</label>
                   <Field
                     type="text"
-                    name="title"
+                    name="name"
                     className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
-                  <ErrorMessage name="title" component="div" className="mt-1 text-sm text-red-600" />
+                  <ErrorMessage name="id" component="div" className="mt-1 text-sm text-red-600" />
                 </div>
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">First Name</label>
                   <Field
                     type="text"
-                    name="firstName"
+                    name="organisation"
                     className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
-                  <ErrorMessage name="firstName" component="div" className="mt-1 text-sm text-red-600" />
+                  <ErrorMessage name="name" component="div" className="mt-1 text-sm text-red-600" />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
+                  <label htmlFor="secondName" className="block text-sm font-medium text-gray-700">Last Name</label>
                   <Field
                     type="text"
                     name="lastName"
                     className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
-                  <ErrorMessage name="lastName" component="div" className="mt-1 text-sm text-red-600" />
+                  <ErrorMessage name="secondName" component="div" className="mt-1 text-sm text-red-600" />
                 </div>
                 <div>
                   <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>

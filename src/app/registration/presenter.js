@@ -16,10 +16,10 @@ const Presenter = React.forwardRef(({ data }, ref) => (
       {/* Name, Title, City, Country */}
       <div className="flex flex-col items-start text-left px-4 w-1/2">
         <div className="text-lg font-bold">
-          <span>{data.title} {data.name}</span>
+          <span>{data.name}</span>
         </div>
         <div className="text-md mt-1">
-          <span>{data.city}, {data.country}</span>
+          {data.organisation}
         </div>
       </div>
 
