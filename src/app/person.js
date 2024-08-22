@@ -17,7 +17,7 @@ export const Person = ({ person, isVisible }) => {
   return (
     visible && (
       <div className={`person-container ${isVisible ? 'slideIn' : 'slideOut'}`}>
-        <p style={nameStyle}>{`${person.id} ${person.firstName} ${person.lastName}`}</p>
+        <p style={nameStyle}>{`${person.firstName} ${person.lastName}`}</p>
         <p style={locationStyle}>{`${person.organisation}`}</p>
       </div>
     )
@@ -27,7 +27,7 @@ export const Person = ({ person, isVisible }) => {
 const nameStyle = {
   margin: 0,
   padding: 0,
-  fontSize: '26px',  // Increased font size for readability
+  fontSize: '30px',  // Increased font size for readability
   fontWeight: 'bold',
   textAlign: 'left',
   width: '100%'
