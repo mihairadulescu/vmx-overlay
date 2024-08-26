@@ -9,7 +9,7 @@ import Presenter from './presenter';
 
 const RegistrationSchema = Yup.object().shape({ 
   firstName: Yup.string().required('Required'),
-  secondName: Yup.string().required('Required'),
+  lastName: Yup.string().required('Required'),
   organisation: Yup.string().required('Required'),
 });
 
@@ -27,7 +27,7 @@ const Registration = () => {
         <div className="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-md" style={{color:"black"}}>
           <h1 className="text-2xl font-bold text-center">Registration Page</h1>
           <Formik
-            initialValues={{  firstName: '', secondName: '', organisation: '' }}
+            initialValues={{  firstName: '', lastName: '', organisation: '' }}
             validationSchema={RegistrationSchema}
             onSubmit={(values, actions) => handleSubmit(values, { ...actions, setStatus })}
           >
@@ -43,10 +43,10 @@ const Registration = () => {
                   <ErrorMessage name="firstName" component="div" className="mt-1 text-sm text-red-600" />
                 </div>
                 <div>
-                  <label htmlFor="secondName" className="block text-sm font-medium text-gray-700">Second Name</label>
+                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">Last Name</label>
                   <Field
                     type="text"
-                    name="secondName"
+                    name="lastName"
                     className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                   <ErrorMessage name="secondName" component="div" className="mt-1 text-sm text-red-600" />
