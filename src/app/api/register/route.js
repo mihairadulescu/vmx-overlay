@@ -5,7 +5,7 @@ import qrcode from 'qrcode';
 
 export async function POST(request) {
   const person = await request.json();
-
+  console.log(person);
   const filePath = path.join(process.cwd(), 'public', 'persons.json');
   let persons = [];
 
@@ -18,7 +18,7 @@ export async function POST(request) {
 
   fs.writeFileSync(filePath, JSON.stringify(persons, null, 2), 'utf8');
 
-  const fileName = `${person.title.toLowerCase()}-${person.firstName.toLowerCase().replace(/ /g, '-')}-${person.lastName.toLowerCase().replace(/ /g, '-')}-${person.city.toLowerCase()}-${person.country.toLowerCase()}.png`;
+  const fileName = `${person.firstName.toLowerCase().replace(/ /g, '-')}.png`;
   const qrCodePath = path.join(process.cwd(), 'public', fileName);
 
   const qrCodeData = await qrcode.toDataURL(JSON.stringify(person));

@@ -7,8 +7,7 @@ import handleSubmit from './handleSubmit';
 import ReactToPrint from 'react-to-print';
 import Presenter from './presenter';
 
-const RegistrationSchema = Yup.object().shape({
-  id: Yup.string().required('Required'),
+const RegistrationSchema = Yup.object().shape({ 
   firstName: Yup.string().required('Required'),
   secondName: Yup.string().required('Required'),
   organisation: Yup.string().required('Required'),
@@ -28,57 +27,40 @@ const Registration = () => {
         <div className="w-full max-w-md p-8 space-y-4 bg-white rounded shadow-md" style={{color:"black"}}>
           <h1 className="text-2xl font-bold text-center">Registration Page</h1>
           <Formik
-            initialValues={{ title: '', firstName: '', lastName: '', city: '', country: '', qrCode: '' }}
+            initialValues={{  firstName: '', secondName: '', organisation: '' }}
             validationSchema={RegistrationSchema}
             onSubmit={(values, actions) => handleSubmit(values, { ...actions, setStatus })}
           >
             {({ isSubmitting, values }) => (
-              <Form className="space-y-4">
+              <Form className="space-y-4"> 
                 <div>
-                  <label htmlFor="id" className="block text-sm font-medium text-gray-700">Id</label>
+                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">First Name</label>
                   <Field
                     type="text"
-                    name="name"
+                    name="firstName"
                     className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
-                  <ErrorMessage name="id" component="div" className="mt-1 text-sm text-red-600" />
+                  <ErrorMessage name="firstName" component="div" className="mt-1 text-sm text-red-600" />
                 </div>
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">First Name</label>
+                  <label htmlFor="secondName" className="block text-sm font-medium text-gray-700">Second Name</label>
                   <Field
                     type="text"
-                    name="organisation"
-                    className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                  <ErrorMessage name="name" component="div" className="mt-1 text-sm text-red-600" />
-                </div>
-                <div>
-                  <label htmlFor="secondName" className="block text-sm font-medium text-gray-700">Last Name</label>
-                  <Field
-                    type="text"
-                    name="lastName"
+                    name="secondName"
                     className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
                   <ErrorMessage name="secondName" component="div" className="mt-1 text-sm text-red-600" />
                 </div>
                 <div>
-                  <label htmlFor="city" className="block text-sm font-medium text-gray-700">City</label>
+                  <label htmlFor="organisation" className="block text-sm font-medium text-gray-700">Organisation</label>
                   <Field
                     type="text"
-                    name="city"
+                    name="organisation"
                     className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                   />
-                  <ErrorMessage name="city" component="div" className="mt-1 text-sm text-red-600" />
+                  <ErrorMessage name="organisation" component="div" className="mt-1 text-sm text-red-600" />
                 </div>
-                <div>
-                  <label htmlFor="country" className="block text-sm font-medium text-gray-700">Country</label>
-                  <Field
-                    type="text"
-                    name="country"
-                    className="block w-full px-3 py-2 mt-1 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                  />
-                  <ErrorMessage name="country" component="div" className="mt-1 text-sm text-red-600" />
-                </div>
+              
                 <div>
                   <button
                     type="submit"
